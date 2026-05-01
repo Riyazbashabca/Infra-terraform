@@ -26,3 +26,8 @@ resource "azurerm_resource_group" "example2" {
     location = "East US"
   
 }
+resource "azurerm_resource_group" "example3" {
+    name     = "test-resource-group3"
+    location = "East US"
+  
+}
