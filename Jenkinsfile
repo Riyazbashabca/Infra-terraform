@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Auto apply?')
-        choice(name: 'action', choices: ['apply', 'destroy'], description: 'Action')
-    }
-
     environment {
         ARM_CLIENT_ID       = credentials('azure-client-id')
         ARM_CLIENT_SECRET   = credentials('azure-client-secret')
@@ -17,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/YOUR-REPO.git'
+                git branch: 'main', url: 'https://github.com/Riyazbashabca/Infra-terraform.git'
             }
         }
 
@@ -34,26 +29,37 @@ pipeline {
             }
         }
 
-        stage('Apply / Destroy') {
+        stage('Show Plan') {
             steps {
-                script {
+                echo "========== Terraform Plan Output =========="
+                sh 'cat tfplan.txt'
+            }
+        }
 
-                    if (params.action == 'apply') {
-
-                        if (!params.autoApprove) {
-                            def plan = readFile 'tfplan.txt'
-                            input message: "Approve Terraform Apply?",
-                                  parameters: [text(name: 'Plan', defaultValue: plan)]
-                        }
-
-                        sh "terraform apply -input=false tfplan"
-
-                    } else {
-                        input message: "Confirm DESTROY?"
-                        sh "terraform destroy -auto-approve"
-                    }
+        stage('Approval') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message: 'Do you want to APPLY these changes?'
                 }
             }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -input=false tfplan'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment Successful"
+        }
+        failure {
+            echo "❌ Deployment Failed"
+        }
+        aborted {
+            echo "⚠️ Deployment Aborted"
         }
     }
 }
