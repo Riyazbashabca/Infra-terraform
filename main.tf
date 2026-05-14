@@ -16,13 +16,8 @@ provider "azurerm" {
   client_secret    = "6iF8Q~yDgX7ahRn8VFp6enBe.4sUJgQ4C34GtcYw"
   tenant_id        = "20ade2b2-2ce5-4299-8e61-44025f44b78b"
 }
-resource "azurerm_resource_group" "example" {
-    name     = "test-resource-group"
-    location = "East US"
-  
-}
-resource "azurerm_resource_group" "example2" {
-    name     = "test-resource-group2"
+resource "azurerm_resource_group" "vnet-demo" {
+    name     = "dev-demo-vnet-rg"
     location = "East US"
   
 }
