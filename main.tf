@@ -13,3 +13,8 @@ resource "azurerm_resource_group" "vnet-demo" {
     location = "East US"
   
 }
+resource "azurerm_resource_group" "iam-demo" {
+    name     = "dev-demo-iam-rg"
+    location = "East US"
+  
+}
