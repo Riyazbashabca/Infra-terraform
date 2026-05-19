@@ -17,3 +17,7 @@ resource "azuread_group" "devops_team" {
 }
 
 data "azuread_client_config" "current" {}
+
+output "group_display_name" {
+  value = azuread_group.devops_team.display_name
+}
