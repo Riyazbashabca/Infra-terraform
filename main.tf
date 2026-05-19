@@ -18,8 +18,3 @@ resource "azurerm_resource_group" "iam-demo" {
     location = "East US"
   
 }
-resource "azurerm_resource_group" "testing-demo" {
-    name     = "version-testing-rg"
-    location = "East US"
-  
-}
