@@ -23,3 +23,10 @@ resource "azurerm_resource_group" "iam-demo" {
         environment = "dev"
     }
 }
+resource "azurerm_resource_group" "learining-demo" {
+    name     = "girish-learnings-rg"
+    location = "East US"
+    tags = {
+        environment = "dev"
+    }
+}
